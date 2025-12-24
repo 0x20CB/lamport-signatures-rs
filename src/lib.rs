@@ -21,8 +21,12 @@
 //! Number of Keypairs: 2 * n * 8
 //! 
 //! Up to 64 byte signing...
+//! ---------------------------
+//! Up to 32 byte signing...
 //! 
+//! 512 x 32 = 16_384 bytes
 //! 
+//! 16_384 x 2 = 32_768 bytes (Public Key + Private Key ?)
 
 
 
@@ -32,11 +36,18 @@ use digest::Digest;
 use rand_core::RngCore;
 use rand_core::CryptoRng;
 
+/// # Digest Sized Arrays
+/// 
+/// Implements for common sizes.
 pub trait DIGEST_SIZED_ARRAY {
 
 }
 
 impl DIGEST_SIZED_ARRAY for [u8;20] {
+
+}
+
+impl DIGEST_SIZED_ARRAY for [u8;24] {
 
 }
 
@@ -60,21 +71,21 @@ impl DIGEST_SIZED_ARRAY for [u8;64] {
 
 //=====BASE STRUCTS=====//
 
-pub struct PublicKey<DSA: DIGEST_SIZED_ARRAY> {
-    pk: [DSA;1024],
+pub struct PublicKey<D: DIGEST_SIZED_ARRAY> {
+    pk: [D;512],
 }
 
-pub struct SecretKey<DSA: DIGEST_SIZED_ARRAY> {
-    sk: [DSA;1024],
+pub struct SecretKey<D: DIGEST_SIZED_ARRAY> {
+    sk: [D;512],
 }
 
-pub struct Keypair<DSA: DIGEST_SIZED_ARRAY> {
-    pk: PublicKey<DSA>,
-    sk: SecretKey<DSA>,
+pub struct Keypair<D: DIGEST_SIZED_ARRAY> {
+    pk: PublicKey<D>,
+    sk: SecretKey<D>,
 }
 
-pub struct Signature<DSA: DIGEST_SIZED_ARRAY> {
-    sig: [DSA;1024],
+pub struct Signature<D: DIGEST_SIZED_ARRAY> {
+    sig: [D;512],
 }
 
 
